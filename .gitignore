@@ -1,5 +1,5 @@
 exec/
-
+.test
 test.c
 test.h
 .DS_Store
