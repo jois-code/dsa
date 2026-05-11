@@ -4,10 +4,10 @@ typedef struct{
     char name[50];
     int age;
     float gpa;
-}Student;
+}student_t;
 
 void *input_student_elem(char *msg){
-    Student *s = malloc(sizeof(Student));
+    student_t *s = malloc(sizeof(student_t));
     if (!s){
         printf("Malloc init error\n");
         exit(-1);
@@ -20,13 +20,13 @@ void *input_student_elem(char *msg){
 }
 
 void print_student_elem(void *val){
-    Student *s = (Student *)val;
+    student_t *s = (student_t *)val;
     printf("[%s | Age: %d | GPA: %.2f]", s->name, s->age, s->gpa);
 }
 
 int compare_student(void *a, void *b){
-    Student *s1 = (Student *)a;
-    Student *s2 = (Student *)b;
+    student_t *s1 = (student_t *)a;
+    student_t *s2 = (student_t *)b;
     return strcmp(s1->name, s2->name);
 }
 
@@ -36,13 +36,13 @@ void free_student(void *a){
 
 int main(){
     struct operation_t operation = {input_student_elem, print_student_elem, compare_student, free_student};
-    struct list_t *list = create_list(sizeof(Student), operation);
+    struct list_t *list = create_list(sizeof(student_t), operation);
 
     append_elem_list(list);
     append_elem_list(list);
     append_elem_list(list);
 
-    Student key = {"Jois", 20, 9.9}; // day dreaming 😭
+    student_t key = {"Jois", 20, 9.9}; // day dreaming 😭
     struct node_t *node = find_node(list, &key);
     if (node == NULL)
         printf("Student not found\n");
