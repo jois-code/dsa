@@ -1,13 +1,13 @@
 #include "singly_linked_list.h"
 
-typedef struct{
+struct student_t{
     char name[50];
     int age;
     float gpa;
-}student_t;
+};
 
 void *input_student_elem(char *msg){
-    student_t *s = malloc(sizeof(student_t));
+    struct student_t *s = malloc(sizeof(struct student_t));
     if (!s){
         printf("Malloc init error\n");
         exit(-1);
@@ -20,13 +20,13 @@ void *input_student_elem(char *msg){
 }
 
 void print_student_elem(void *val){
-    student_t *s = (student_t *)val;
+    struct student_t *s = (struct student_t *)val;
     printf("[%s | Age: %d | GPA: %.2f]", s->name, s->age, s->gpa);
 }
 
 int compare_student(void *a, void *b){
-    student_t *s1 = (student_t *)a;
-    student_t *s2 = (student_t *)b;
+    struct student_t *s1 = (struct student_t *)a;
+    struct student_t *s2 = (struct student_t *)b;
     return strcmp(s1->name, s2->name);
 }
 
@@ -36,21 +36,22 @@ void free_student(void *a){
 
 int main(){
     struct operation_t operation = {input_student_elem, print_student_elem, compare_student, free_student};
-    struct list_t *list = create_list(sizeof(student_t), operation);
+    struct list_t *list = create_list(sizeof(struct student_t), operation);
 
     append_elem_list(list);
     append_elem_list(list);
     append_elem_list(list);
 
-    student_t key = {"Jois", 20, 9.9}; // day dreaming 😭
+    print_list(list);
+    struct student_t key = {"Jois", 20, 9.9}; // day dreaming 😭
     struct node_t *node = find_node(list, &key);
     if (node == NULL)
         printf("Student not found\n");
     else
-        print_student_elem(node->val);
+        delete_node(list,node->val);
 
-    printf("\n");
     print_list(list);
+    printf("\n");
     free_list(list);
 }
 
@@ -116,6 +117,19 @@ void insert_after(struct list_t *list,void *val,void *val_find){
     new = create_node(val);
     node->next = new;
     new->next = temp;
+}
+
+void delete_node(struct list_t *list, void *val_del){
+    struct node_t **pointer= &list->head,*del;
+    while(*pointer && list->operation.compare((*pointer)->val,val_del)) pointer = &(*pointer)->next;
+    if(!*pointer){
+        printf("Value not found\n");
+        return;
+    }
+    del = *pointer;
+    *pointer = del->next;
+    list->operation.free_elem(del->val);
+    free(del);
 }
 
 void free_list(struct list_t *list){

@@ -26,4 +26,5 @@ void print_list(struct list_t *list);
 void append_elem_list(struct list_t *list);
 struct node_t *find_node(struct list_t *list,void *val);
 void insert_after(struct list_t *list,void *val,void *val_find);
+void delete_node(struct list_t *list,void *val_del);
 void free_list(struct list_t *list);
