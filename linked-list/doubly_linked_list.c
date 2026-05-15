@@ -1,5 +1,5 @@
-#define SINGLY_LINKED_LIST_INIT
-#include "singly_linked_list.h"
+#define DOUBLY_LINKED_LIST_INIT
+#include "doubly_linked_list.h"
 
 struct student_t{
     char name[50];
@@ -44,7 +44,7 @@ int main(){
     append_elem_list(list);
 
     print_list(list);
-    struct student_t key = {"Jois", 20, 9.9}; // day dreaming 😭
+    struct student_t key = {"Jois", 20, 9.9}; // still day dreaming 😭
     struct node_t *node = find_node(list, &key);
     if (node == NULL)
         printf("Student not found\n");
@@ -52,6 +52,5 @@ int main(){
         delete_node(list,node->val);
 
     print_list(list);
-    printf("\n");
     free_list(list);
 }
